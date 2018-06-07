@@ -157,13 +157,14 @@ function randomString(length, chars) {
 
 function toggle404Page(api, isExpanded){
     var rand = randomString(32, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
+    var randNum = randomString(32, '0123456789');
     var url = api.settings.url.home + rand;
-    var previousUrl = api.previewer.previewUrl.get();
+
     if ( isExpanded ) {
-        api.previewer.previewUrl.set( url );
+        api.previewer.previewUrl.set( url + '?p=' + randNum );
     }else {
         url = api.settings.url.home;
-        api.previewer.previewUrl.set( url );
+        api.previewer.previewUrl.set( url + '?p=' + randNum );
     }
 }
 
@@ -178,6 +179,7 @@ function toggle404Page(api, isExpanded){
             toggle404Page(api, isExpanded);
         } );
     } );
+
 
     /**
      * Load a fake page when we open a 404 settings section, load the front page when we leave

@@ -41,13 +41,13 @@ function benjamin_navbar_header_class() {
  */
 function benjamin_get_the_posts_navigation() {
     $args = array(
-        'prev_text' => '<span class="dashicons dashicons-arrow-left-alt2" title="older posts"></span> Older Posts', 
-        'next_text' => 'Newer Posts <span class="dashicons dashicons-arrow-right-alt2" title="newer posts"></span>'
+        'prev_text' => '<span class="dashicons dashicons-arrow-left-alt2" title="older posts"></span>' . __('Older Posts', 'benjamin'),
+        'next_text' => __('Newer Posts', 'benjamin') . ' <span class="dashicons dashicons-arrow-right-alt2" title="newer posts"></span>'
     );
     return get_the_posts_navigation($args);
 }
 
 
 function benjamin_the_posts_navigation() {
-    echo benjamin_get_the_posts_navigation();
+    echo benjamin_get_the_posts_navigation(); // WPCS: xss ok.
 }

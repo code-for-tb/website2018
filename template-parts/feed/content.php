@@ -1,46 +1,51 @@
 <?php
-/** 
+/**
  * Template part for displaying posts
  *
  * @link https://codex.wordpress.org/Template_Hierarchy
  *
  * @package Benjamin
  */
-
 ?>
 
-<article id="post-<?php the_ID(); ?>" <?php post_class('cf'); ?>>
+<article id="post-<?php the_ID(); ?>" <?php post_class( 'entry cf' ); ?>>
+    
     <header class="entry-header">
+        <h3 class="entry-title">
         <?php
-        if ( !is_single() ) :
-            $pre = '<h2 class="entry-title">';
-            $pre .= benjamin_post_format_icon( get_post_format());
-            $pre .= '<a href="' . esc_url( get_permalink() ) . '" rel="bookmark">';
-
-            the_title(  $pre, '</a></h2>');
-        endif;
+            echo benjamin_get_feed_entry_title(); // WPCS: xss ok.
         ?>
+        </h3>
     </header><!-- .entry-header -->
+
     <div class="grid">
+        <?php
+        if(class_exists('BenjaminPostFormat')) {
+            benjamin_post_format_markup( $post, get_post_format() );
+        }
+        ?>
 
         <div class="usa-width-one-fourth">
 
-           <?php benjamin_post_thumbnail($post); ?>
+            <?php 
+                benjamin_post_thumbnail( $post );
+            ?>
 
             <?php
-                if ( 'page' !== get_post_type() ) : ?>
+            if ( 'page' !== get_post_type() ) :
+            ?>
                 <div class="entry-meta">
-                <?php 
-                    echo benjamin_get_the_date(); // WPCS: xss ok.
-                    echo benjamin_get_the_author(); // WPCS: xss ok.
+            <?php
+                echo benjamin_get_the_date(); // WPCS: xss ok.
+                echo benjamin_get_the_author(); // WPCS: xss ok.
 
-                    echo benjamin_get_the_comment_popup(); // WPCS: xss ok.
-                    echo benjamin_get_categories_links(); // WPCS: xss ok.
-                    echo benjamin_get_tags_links(); // WPCS: xss ok. 
-                ?>
-                </div><!-- .entry-meta -->
-                <?php
-                endif;
+                echo benjamin_get_the_comment_popup(); // WPCS: xss ok.
+                echo benjamin_get_categories_links(); // WPCS: xss ok.
+                echo benjamin_get_tags_links(); // WPCS: xss ok.
+            ?>
+            </div><!-- .entry-meta -->
+            <?php
+            endif;
             ?>
         </div>
 

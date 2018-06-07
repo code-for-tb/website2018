@@ -16,32 +16,35 @@ $shared_files = array(
     'widgets',
 );
 
-foreach($shared_files as $file)
-    require dirname(__FILE__) . '/shared/' . $file . '.php'; // WPCS: xss ok.
+foreach ($shared_files as $file) {
+    require get_template_directory() . '/inc/shared/' . $file . '.php'; // WPCS: xss ok.
+}
 
 // customizer
-require dirname(__FILE__) . '/customizer/_init.php';
+require get_template_directory() . '/inc/customizer/_init.php';
 
 
 
 // only load these in the admin section
 if (is_admin()) {
     $files = array(
+        'about-page',
         'ajax',
         'assets',
-        'columns',
-        'metabox-featured-post',
-        'post-formats'
+        'franklin-notice',
+        'functions',
+        'metabox-featured-post'
     );
 
 
-    foreach($files as $file)
-        require dirname(__FILE__) . '/admin/' . $file . '.php'; // WPCS: xss ok.
+    foreach ($files as $file) {
+        require get_template_directory() . '/inc/admin/' . $file . '.php'; // WPCS: xss ok.
+    }
 }
 
 
 // only load these on the frontend
-if( !is_admin() ){
+if (!is_admin()) {
 
     $files = array(
         'assets',
@@ -52,7 +55,6 @@ if( !is_admin() ){
         'hero/BenjaminHeroContent',
         'excerpts',
         'filters',
-        'galleries',
         'get-sidebar',
         'get-width-visibility',
         'nav-settings',
@@ -67,6 +69,8 @@ if( !is_admin() ){
         'template-settings',
         'template-tags',
     );
-    foreach($files as $file)
-        require dirname(__FILE__) . '/frontend/' . $file . '.php'; // WPCS: xss ok.
+
+    foreach ($files as $file) {
+        require get_template_directory() . '/inc/frontend/' . $file . '.php'; // WPCS: xss ok.
+    }
 }

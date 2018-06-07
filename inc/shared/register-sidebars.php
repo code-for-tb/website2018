@@ -92,56 +92,54 @@ function benjamin_calculate_widget_width( $count ) {
  * Deactivate and hide the widget area if it is not "active"
  * @return [type] [description]
  */
-function benjamin_hide_inactive_templates_on_widget_screen() {
-		$screen = get_current_screen();
+function benjamin_hide_inactive_templates_on_widget_screen(){
+    $screen = get_current_screen();
 
-	if ( 'widgets' !== $screen->id ) {
-		return;
-	}
+    if($screen->id !== 'widgets')
+        return;
 
-		$horizontals = array(
-			'footer-widget-area-1',
-			'footer-widget-area-2',
-			'frontpage-widget-area-1',
-			'frontpage-widget-area-2',
-			'frontpage-widget-area-3',
-			'widgetized-widget-area-1',
-			'widgetized-widget-area-2',
-			'widgetized-widget-area-3',
-		);
+    $horizontals = array(
+        'footer-widget-area-1',
+        'footer-widget-area-2',
+        'frontpage-widget-area-1',
+        'frontpage-widget-area-2',
+        'frontpage-widget-area-3',
+        'widgetized-widget-area-1',
+        'widgetized-widget-area-2',
+        'widgetized-widget-area-3',
+    );
 
-		$templates = benjamin_the_template_list( true );
+    $templates = benjamin_the_template_list(true);
 
-		// loop through all the templates
-	foreach ( $templates as $name => $args ) {
+    // loop through all the templates
+    foreach($templates as $name => $args){
 
-				// if we are on the default template or that template's settings
-				// have been activated, then skip it.
-		if ( DEFAULT_TEMPLATE === $name || get_theme_mod( $name . '_settings_active' ) === 'yes' ) {
-					continue;
-		}
+        // if we are on the default template or that template's settings
+        // have been activated, then skip it.
+        if( $name == BENJAMIN_DEFAULT_TEMPLATE || get_theme_mod($name.'_settings_active') == 'yes' )
+            continue;
 
-				// skip the following areas
-				$skip_horz = array( 'banner-widget-area' );
+        // skip the following areas
+        $skip_horz = array('banner-widget-area');
 
-				// loop through the list of horizontal areas
-		foreach ( $horizontals as $area ) {
 
-						$setting   = strtok( $area, '-' );
-						$sortables = get_theme_mod( $setting . '_sortables_setting', null );
-						// if the area is active, then add it to the skip list
-						$target = ltrim( ltrim( $area, $setting ), '-' );
-			if ( strpos( $sortables, $target ) ) {
-							$skip_horz[] = $area;
-			}
-		}
+        // loop through the list of horizontal areas
+        foreach($horizontals as $area){
 
-		if ( in_array( $name, $skip_horz, true ) ) {
-					continue;
-		}
+            $setting = strtok($area, '-');
+            $sortables = get_theme_mod($setting . '_sortables_setting', null);
+            // if the area is active, then add it to the skip list
+            $target = ltrim(ltrim($area, $setting), '-');
+            if(strpos($sortables, $target) )
+                $skip_horz[] = $area;
 
-				unregister_sidebar( (string) $name );
-	}
+        }
+
+        if(in_array($name, $skip_horz ))
+            continue;
+
+        unregister_sidebar((string) $name);
+    }
 
 }
 add_action( 'sidebar_admin_setup', 'benjamin_hide_inactive_templates_on_widget_screen' );
